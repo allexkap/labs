@@ -11,15 +11,15 @@ show:
     push 0x0A000000 ; \n
     add esp, 3      ; fix
 
- .l:mov edx, 0x31   ; '1'
-    mov ebx, 1      ; mask
-    shl ebx, cl     ; create
-    and ebx, eax    ; apply
+ .l:mov eax, 1      ; mask
+    shl eax, cl     ; create
+    and eax, [var]  ; apply
 
-    jnz .n          ; skip next line
-    sub edx, 1      ; '1' -> '0'
- .n:shl edx, 24     ; fix
-    push edx        ; save
+    jz .z           ; condition
+    mov eax, 1      ; z!=0 -> z=1
+ .z:add eax, 0x30   ; 0, 1 -> '0', '1'
+    shl eax, 24     ; fix
+    push eax        ; save
     add esp, 3      ; fix
     add cl, 1       ; loop
 
@@ -37,7 +37,6 @@ show:
 
 
 _start:
-    mov eax, [var]
     call show
 
     mov eax, 1
