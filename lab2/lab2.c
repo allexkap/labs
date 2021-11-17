@@ -2,9 +2,7 @@
 
 // xor swap
 void swap(char *a, char *b) {
-    *a ^= *b;
-    *b ^= *a;
-    *a ^= *b;
+    *a ^= *b ^= *a ^= *b;
 }
 
 int main() {
