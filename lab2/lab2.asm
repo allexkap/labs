@@ -17,18 +17,17 @@ show:
     mov edx, 0x0A   ; '\n'
     mov [ebx], dl   ; save
 
- .l mov edx, eax    ; copy
-    shr eax, 1      ; next bit
-    and edx, 1      ; mask
+ .l dec ebx         ; previous cell
+    mov edx, 0x30   ; preparation
 
+    test eax, 1     ; mask
     jz .z           ; condition
-    mov edx, 1      ; z != 0 -> z = 1
- .z add edx, 0x30   ; 0, 1 -> '0', '1'
-    
-    sub ebx, 1      ; previous cell
+    inc dl          ; '0' -> '1'
+
+ .z shr eax, 1      ; next bit   
     mov [ebx], dl   ; save
 
-    add cl, 1       ; increase
+    inc cl          ; increase
     cmp cl, 32      ; compare
     jnz .l          ; repeat
 
@@ -36,7 +35,7 @@ show:
     mov ebx, 1      ; stdout
     mov ecx, tmp    ; message
     mov edx, 33     ; length
-    int 80h         ; kernel call
+    int 128         ; kernel call
     ret             ; return
 
 
@@ -45,19 +44,17 @@ calc:
     mov ecx, 0      ; zeroing
     mov edx, 0      ; zeroing
 
- .l mov ch, cl      ; copy
-    shl ch, 5       ; only 3 low bits
+ .l test cl, 111b   ; only 3 low bits
     jnz .n          ; check 8|ch
     ror edx, 8      ; new cell
 
- .n mov ebx, eax    ; copy
-    shr eax, 1      ; next bit
-    and ebx, 1      ; mask
+ .n test eax, 1     ; mask
+    jz .z           ; check bit
+    inc edx         ; increase cell
 
-    jz .z           ; condition
-    add edx, 1      ; increase cell
+ .z shr eax, 1      ; next bit
 
- .z add cl, 1       ; increase
+    inc cl          ; increase
     cmp cl, 32      ; compare
     jnz .l          ; repeat
 
@@ -67,39 +64,37 @@ calc:
 
 
 sort:
-    mov ch, 0       ; zeroing
- .h mov cl, 0       ; zeroing
- .l mov edx, 0      ; zeroing
-    mov dl, cl      ; cl -> edx
-
-    mov ebx, tmp    ; position
+    mov ecx, 0      ; zeroing
+ .o mov edx, 0      ; zeroing
+ .l mov ebx, tmp    ; position
     add ebx, edx    ; offset
+    
     mov al, [ebx]   ; 1 -> al
-    add ebx, 1      ; next
+    inc ebx         ; next
     mov ah, [ebx]   ; 2 -> ah
 
     cmp al, ah      ; compare
     jle .e          ; al > ah
 
     mov [ebx], al   ; al -> 2
-    sub ebx, 1      ; previous
+    dec ebx         ; previous
     mov [ebx], ah   ; ah -> 1
 
     mov ebx, var    ; position
     add ebx, edx    ; offset
     mov al, [ebx]   ; 1 -> al
-    add ebx, 1      ; next
+    inc ebx         ; next
     mov ah, [ebx]   ; 2 -> ah
     mov [ebx], al   ; al -> 2
-    sub ebx, 1      ; previous
+    dec ebx         ; previous
     mov [ebx], ah   ; ah -> 1
 
- .e add cl, 1       ; increase
-    cmp cl, 3       ; compare
+ .e inc dl          ; increase
+    cmp dl, 3       ; compare
     jnz .l          ; repeat
-    add ch, 1       ; increase
-    cmp ch, 4       ; compare
-    jnz .h          ; repeat
+    inc cl          ; increase
+    cmp cl, 4       ; compare
+    jnz .o          ; repeat
     ret             ; return
 
 
@@ -112,4 +107,4 @@ _start:
 
     mov eax, 1      ; exit
     mov ebx, 0      ; status
-    int 80h         ; kernel call
+    int 128         ; kernel call
