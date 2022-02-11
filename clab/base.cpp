@@ -1,35 +1,37 @@
 class String {
 
-  public:
-    char *pointer = nullptr;
-    int length;
-
+  protected:
     void empty() {
-        if (!pointer) return;
-        delete [] pointer;
-        pointer = nullptr;
         length = 0;
+        if (pointer) {
+            delete [] pointer;
+            pointer = nullptr;
+        }
     }
-
-    String() {
-        empty();
-    }
-    String(string str) {
-        length = str.length();
+    void copy(const char *str) {
         if (length) {
             pointer = new char [length+1];
             for (int i = 0; i < length; i++) pointer[i] = str[i];
             pointer[length] = '\0';
         }
     }
-    String(char chr) : String(string(1, chr)) { }
-    String(String &Str) {
+
+  public:
+    char *pointer = nullptr;
+    int length = 0;
+
+    String() { }
+    String(const char chr) {
+        length = 1;
+        copy(&chr);
+    }
+    String(const char *str) {
+        while (str[length++]); length--;
+        copy(str);
+    }
+    String(const String &Str) {
         length = Str.length;
-        if (length) {
-            pointer = new char [length+1];
-            for (int i = 0; i < length; i++) pointer[i] = Str.pointer[i];
-            pointer[length] = '\0';
-        }
+        copy(Str.pointer);
     }
     ~String() {
         empty();
@@ -39,10 +41,10 @@ class String {
         return pointer[pos];
     }
     void show() {
-        cout << "length: " << length << endl;
+        std::cout << "length: " << length << '\n';
         if (pointer) {
-            cout << "pointer: " << &pointer << endl;
-            cout << "value: " << pointer << endl;
+            std::cout << "pointer: " << (long int) pointer << '\n'
+                      << "value: " << pointer << '\n';
         }
     }
 };
