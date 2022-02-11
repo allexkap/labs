@@ -18,14 +18,21 @@ class Identifier : public String {
     Identifier() : String() { }
     Identifier(const char chr) : String(chr) { check(); }
     Identifier(const char *str) : String(str) { check(); }
-    Identifier(String &Str) : String(Str) { check(); }
+    Identifier(const String &Str) : String(Str) { check(); }
+    Identifier(const Identifier &Str) : String(Str) { }
     ~Identifier() { }
 
-    Identifier& operator =(String &Str) {
+    Identifier& operator=(const String &Str) {
         empty();
         length = Str.length;
         copy(Str.pointer);
         check();
+        return *this;
+    }
+    Identifier& operator =(const Identifier &Str) {
+        empty();
+        length = Str.length;
+        copy(Str.pointer);
         return *this;
     }
     bool operator ==(String &Str) {

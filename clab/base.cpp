@@ -40,11 +40,4 @@ class String {
     char read(int pos) {
         return pointer[pos];
     }
-    void show() {
-        std::cout << "length: " << length << '\n';
-        if (pointer) {
-            std::cout << "pointer: " << (long int) pointer << '\n'
-                      << "value: " << pointer << '\n';
-        }
-    }
 };
