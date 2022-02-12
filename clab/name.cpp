@@ -22,20 +22,16 @@ class Identifier : public String {
     Identifier(const Identifier &Str) : String(Str) { }
     ~Identifier() { }
 
-    Identifier& operator=(const String &Str) {
-        empty();
-        length = Str.length;
+    Identifier& operator =(const String &Str) {
         copy(Str.pointer);
         check();
         return *this;
     }
     Identifier& operator =(const Identifier &Str) {
-        empty();
-        length = Str.length;
         copy(Str.pointer);
         return *this;
     }
-    bool operator ==(String &Str) {
+    bool operator ==(const String &Str) {
         if (length == Str.length) {
             bool ok = true;
             for (int i = 0; i < length; i++) {
@@ -51,7 +47,7 @@ class Identifier : public String {
 
     void lower() {
         for (int i = 0; i < length; i++) {
-            pointer[i] |= (1<<5);
+            pointer[i] |= (1 << 5);
         }
     }
 };

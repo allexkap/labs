@@ -9,10 +9,11 @@ class String {
         }
     }
     void copy(const char *str) {
+        empty();
+        while (str[length++]); length--;
         if (length) {
             pointer = new char [length+1];
-            for (int i = 0; i < length; i++) pointer[i] = str[i];
-            pointer[length] = '\0';
+            for (int i = 0; i <= length; i++) pointer[i] = str[i];
         }
     }
 
@@ -22,15 +23,13 @@ class String {
 
     String() { }
     String(const char chr) {
-        length = 1;
-        copy(&chr);
+        char str[] = {chr, '\0'};
+        copy(str);
     }
     String(const char *str) {
-        while (str[length++]); length--;
         copy(str);
     }
     String(const String &Str) {
-        length = Str.length;
         copy(Str.pointer);
     }
     ~String() {
