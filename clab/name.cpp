@@ -46,8 +46,6 @@ class Identifier : public String {
     }
 
     void lower() {
-        for (int i = 0; i < length; i++) {
-            pointer[i] |= (1 << 5);
-        }
+        for (int i = 0; i < length; i++) pointer[i] |= (1 << 5);
     }
 };

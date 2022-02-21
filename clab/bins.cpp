@@ -12,12 +12,8 @@ class Binary : public String {
     }
     char match(const Binary &other) {
         char result = other.pointer[0] - pointer[0];
-        if (!result){
-            for (int i = ((length>other.length)?length:other.length)-1; i > 0; i--) {
-                result = pointer[(length>i)?length-i:0] - other.pointer[(other.length>i)?other.length-i:0];
-                if (result) break;
-            }
-        }
+        for (int i = ((length>other.length)?length:other.length)-1; !result && i > 0; i--)
+            result = pointer[(length>i)?length-i:0] - other.pointer[(other.length>i)?other.length-i:0];
         return result + '=';
     }
 
