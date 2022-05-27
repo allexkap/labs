@@ -1,10 +1,11 @@
 #pragma once
+#include "base.h"
 
 class Binary : public String {
 
   protected:
     void check();
-    char match(const Binary&);
+    char match(const Binary&) const;
 
   public:
     Binary();
@@ -13,10 +14,9 @@ class Binary : public String {
     Binary(const Binary&);
     ~Binary();
 
-    Binary& operator =(const String&);
-    Binary& operator =(const Binary&);
-    bool operator ==(const String&);
-    bool operator <(const String&);
+    Binary& operator=(const Binary&);
+    friend bool operator==(const Binary&, const Binary&);
+    friend bool operator<(const Binary&, const Binary&);
 
     void optimization();
 };

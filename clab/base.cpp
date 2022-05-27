@@ -1,3 +1,4 @@
+#include <iostream>
 #include "base.h"
 
 void String::empty() {
@@ -15,7 +16,9 @@ void String::copy(const char *str) {
     for (int i = 0; i <= length; i++) pointer[i] = str[i];
 }
 
-String::String() { }
+String::String() {
+    copy("");
+}
 String::String(const char chr) {
     char str[2] = {chr, '\0'};
     copy(str);
@@ -30,6 +33,6 @@ String::~String() {
     empty();
 }
 
-const char& String::read(const int pos) {
+const char& String::read(const int pos) const {
     return pointer[pos];
 }

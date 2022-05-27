@@ -1,4 +1,3 @@
-#include "base.h"
 #include "bins.h"
 
 void Binary::check() {
@@ -10,7 +9,7 @@ void Binary::check() {
     }
     if (!ok) copy("00");
 }
-char Binary::match(const Binary &other) {
+char Binary::match(const Binary &other) const {
     char result = other.pointer[0] - pointer[0];
     for (int i = ((length>other.length)?length:other.length)-1; !result && i > 0; i--)
         result = pointer[(length>i)?length-i:0] - other.pointer[(other.length>i)?other.length-i:0];
@@ -23,20 +22,15 @@ Binary::Binary(const String &Str) : String(Str) { check(); }
 Binary::Binary(const Binary &Str) : String(Str) { }
 Binary::~Binary() { }
 
-Binary& Binary::operator =(const String &Str) {
-    copy(Str.pointer);
-    check();
+Binary& Binary::operator=(const Binary &Str) {
+    if (this != &Str) copy(Str.pointer);
     return *this;
 }
-Binary& Binary::operator =(const Binary &Str) {
-    copy(Str.pointer);
-    return *this;
+bool operator==(const Binary &Str1, const Binary &Str2) {
+    return Str1.match(Str2) == '=';
 }
-bool Binary::operator ==(const String &Str) {
-    return match(Str) == '=';
-}
-bool Binary::operator <(const String &Str) {
-    return match(Str) == '<';
+bool operator<(const Binary &Str1, const Binary &Str2) {
+    return Str1.match(Str2) == '<';
 }
 
 void Binary::optimization() {

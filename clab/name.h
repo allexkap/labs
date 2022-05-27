@@ -1,4 +1,5 @@
 #pragma once
+#include "base.h"
 
 class Identifier : public String {
 
@@ -9,13 +10,11 @@ class Identifier : public String {
     Identifier();
     Identifier(const char);
     Identifier(const char*);
-    Identifier(const String&);
     Identifier(const Identifier&);
     ~Identifier();
 
-    Identifier& operator =(const String&);
-    Identifier& operator =(const Identifier&);
-    bool operator ==(const String&);
+    Identifier& operator=(const Identifier&);
+    friend bool operator==(const Identifier&, const Identifier&);
 
     void lower();
 };
