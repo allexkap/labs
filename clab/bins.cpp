@@ -18,7 +18,6 @@ char Binary::match(const Binary &other) const {
 
 Binary::Binary() : String() { }
 Binary::Binary(const char *str) : String(str) { check(); }
-Binary::Binary(const String &Str) : String(Str) { check(); }
 Binary::Binary(const Binary &Str) : String(Str) { }
 Binary::~Binary() { }
 

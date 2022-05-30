@@ -33,5 +33,5 @@ bool operator==(const Identifier &Str1, const Identifier &Str2) {
 }
 
 void Identifier::lower() {
-    for (int i = 0; i < length; i++) pointer[i] |= (1 << 5);
+    for (int i = 0; i < length; i++) pointer[i] |= (1 << 5); check();
 }

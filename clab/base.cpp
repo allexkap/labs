@@ -1,4 +1,3 @@
-#include <iostream>
 #include "base.h"
 
 void String::empty() {
@@ -10,7 +9,6 @@ void String::empty() {
 }
 void String::copy(const char *str) {
     empty();
-    if (!str) return;
     while (str[length++]); length--;
     pointer = new char [length+1];
     for (int i = 0; i <= length; i++) pointer[i] = str[i];
